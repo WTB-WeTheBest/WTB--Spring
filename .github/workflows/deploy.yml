@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t WTB--Spring:latest .
+
+      - name: Save Docker image to file
+        run: docker save WTB--Spring:latest -o WTB--Spring.tar
+
+      - name: Create .env file from secrets
+        run: |
+          cat <<EOF > .env
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          EOF
+
+      - name: Prepare deploy files
+        run: |
+          mkdir WTB--Spring
+          mv WTB--Spring.tar .env docker-compose.yml WTB--Spring/
+
+      - name: Copy Docker image and .env to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "WTB--Spring/*"
+          target: "~/"
+
+      - name: Deploy on remote server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/WTB--Spring 
+            
+            docker compose down || true
+            docker rmi WTB--Spring:latest || true
+            
+            docker load -i WTB--Spring.tar
+            rm WTB--Spring.tar
+            
+            docker compose up -d
