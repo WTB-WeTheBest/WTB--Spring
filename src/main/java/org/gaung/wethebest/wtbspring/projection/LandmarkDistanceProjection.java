@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public interface LandmarkDistanceProjection {
 
-    UUID getActivityId();
+    UUID getLandmarkId();
 
     UUID getMarkerId();
 

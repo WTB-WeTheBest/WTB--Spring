@@ -5,18 +5,22 @@ import org.gaung.wethebest.wtbspring.dto.ActivityRequest;
 import org.gaung.wethebest.wtbspring.dto.ActivityResponse;
 import org.gaung.wethebest.wtbspring.dto.PageInfo;
 import org.gaung.wethebest.wtbspring.dto.WebResponse;
+import org.gaung.wethebest.wtbspring.security.annotation.AllowedRoles;
 import org.gaung.wethebest.wtbspring.service.ActivityService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ActivityController {
@@ -62,7 +66,7 @@ public class ActivityController {
         return currentPage + 1;
     }
 
-//    @AllowedRoles({"ADMIN"})
+    @AllowedRoles({"ADMIN"})
     @PostMapping(
             path = "/activities",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -80,12 +84,19 @@ public class ActivityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-//    @AllowedRoles({"ADMIN"})
-//    @DeleteMapping(
-//            path = "/activities",
-//            produces = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity<WebResponse<String>> deleteActivity() {
-//
-//    }
+    @AllowedRoles({"ADMIN"})
+    @DeleteMapping(
+            path = "/activities/{activityId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<WebResponse<String>> deleteActivity(@PathVariable UUID activityId) {
+
+        activityService.deleteActivity(activityId);
+
+        WebResponse<String> response = WebResponse.<String>builder()
+                .data("OK")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
 }

@@ -5,18 +5,22 @@ import org.gaung.wethebest.wtbspring.dto.LandmarkRequest;
 import org.gaung.wethebest.wtbspring.dto.LandmarkResponse;
 import org.gaung.wethebest.wtbspring.dto.PageInfo;
 import org.gaung.wethebest.wtbspring.dto.WebResponse;
+import org.gaung.wethebest.wtbspring.security.annotation.AllowedRoles;
 import org.gaung.wethebest.wtbspring.service.LandmarkService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class LandmarkController {
@@ -62,7 +66,7 @@ public class LandmarkController {
         return currentPage + 1;
     }
 
-//    @AllowedRoles({"ADMIN"})
+    @AllowedRoles({"ADMIN"})
     @PostMapping(
             path = "/landmark",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -79,13 +83,20 @@ public class LandmarkController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-//
-//    @AllowedRoles({"ADMIN"})
-//    @DeleteMapping(
-//            path = "/landmark/{id}",
-//            produces = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity<WebResponse<String>> deleteLandmark(@PathVariable UUID id) {
-//
-//    }
+
+    @AllowedRoles({"ADMIN"})
+    @DeleteMapping(
+            path = "/landmark/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<WebResponse<String>> deleteLandmark(@PathVariable UUID id) {
+
+        landmarkService.deleteLandmark(id);
+
+        WebResponse<String> response = WebResponse.<String>builder()
+                .data("OK")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
 }

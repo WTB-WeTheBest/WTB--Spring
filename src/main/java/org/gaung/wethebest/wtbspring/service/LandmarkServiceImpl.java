@@ -16,9 +16,12 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +44,7 @@ public class LandmarkServiceImpl implements LandmarkService {
             coordinates.setLongitude(p.getLongitude());
 
             return LandmarkResponse.builder()
-                    .id(p.getActivityId())
+                    .id(p.getLandmarkId())
                     .name(p.getName())
                     .description(p.getDescription())
                     .contact(p.getContact())
@@ -83,6 +86,13 @@ public class LandmarkServiceImpl implements LandmarkService {
         landmark.setMarker(marker);
         landmark.setStory(request.getStory());
         landmarkRepository.save(landmark);
+    }
+
+    @Override
+    public void deleteLandmark(UUID landmarkId) {
+        landmarkRepository.findById(landmarkId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found"));
+        landmarkRepository.deleteById(landmarkId);
     }
 
     private Point createPoint(double latitude, double longitude) {

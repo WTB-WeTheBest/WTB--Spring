@@ -1,9 +1,5 @@
 package org.gaung.wethebest.wtbspring.service;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.RequiredArgsConstructor;
 import org.gaung.wethebest.wtbspring.dto.ActivityRequest;
 import org.gaung.wethebest.wtbspring.dto.ActivityResponse;
@@ -11,7 +7,6 @@ import org.gaung.wethebest.wtbspring.dto.CoordinatesResponse;
 import org.gaung.wethebest.wtbspring.model.Activity;
 import org.gaung.wethebest.wtbspring.model.Location;
 import org.gaung.wethebest.wtbspring.model.Marker;
-import org.gaung.wethebest.wtbspring.model.Picture;
 import org.gaung.wethebest.wtbspring.projection.ActivityDistanceProjection;
 import org.gaung.wethebest.wtbspring.repository.ActivityRepository;
 import org.gaung.wethebest.wtbspring.repository.LocationRepository;
@@ -21,10 +16,12 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -87,6 +84,13 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = new Activity();
         activity.setMarker(marker);
         activityRepository.save(activity);
+    }
+
+    @Override
+    public void deleteActivity(UUID activityId) {
+        activityRepository.findById(activityId)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found"));
+        activityRepository.deleteById(activityId);
     }
 
     private Point createPoint(double latitude, double longitude) {
