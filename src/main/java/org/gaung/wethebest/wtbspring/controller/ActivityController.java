@@ -27,10 +27,12 @@ public class ActivityController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<WebResponse<List<ActivityResponse>>> getAllActivity(
+            @RequestParam("lat") double lat,
+            @RequestParam("lng") double lng,
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        Page<ActivityResponse> activities = activityService.getAllActivity(page, size);
+        Page<ActivityResponse> activities = activityService.getNearbyActivities(lat, lng, page, size);
 
         return getPaginationResponse(activities);
     }

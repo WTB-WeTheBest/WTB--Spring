@@ -1,6 +1,5 @@
 package org.gaung.wethebest.wtbspring.controller;
 
-import org.gaung.wethebest.wtbspring.dto.ActivityResponse;
 import org.gaung.wethebest.wtbspring.dto.LandmarkResponse;
 import org.gaung.wethebest.wtbspring.dto.PageInfo;
 import org.gaung.wethebest.wtbspring.dto.WebResponse;
@@ -28,10 +27,12 @@ public class LandmarkController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<WebResponse<List<LandmarkResponse>>> getAllLandmarks(
+            @RequestParam("lat") double lat,
+            @RequestParam("lng") double lng,
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        Page<LandmarkResponse> landmarks = landmarkService.getAllLandmark(page, size);
+        Page<LandmarkResponse> landmarks = landmarkService.getNearbyLandmarks(lat, lng, page, size);
 
         return getPaginationResponse(landmarks);
     }

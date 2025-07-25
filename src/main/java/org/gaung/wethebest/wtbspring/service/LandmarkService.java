@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 
 public interface LandmarkService {
 
-    Page<LandmarkResponse> getAllLandmark(int page, int size);
+    Page<LandmarkResponse> getNearbyLandmarks(double latitude, double longitude, int page, int size);
 }

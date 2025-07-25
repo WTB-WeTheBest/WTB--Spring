@@ -29,4 +29,6 @@ public class ActivityResponse {
     private CoordinatesResponse coordinates;
 
     private List<String> pictures;
+
+    private double distance;
 }

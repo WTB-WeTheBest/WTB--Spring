@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 
 public interface ActivityService {
 
-    Page<ActivityResponse> getAllActivity(int page, int size);
+    Page<ActivityResponse> getNearbyActivities(double latitude, double longitude, int page, int size);
 }

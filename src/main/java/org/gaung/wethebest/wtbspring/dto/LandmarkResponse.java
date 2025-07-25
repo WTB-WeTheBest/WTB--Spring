@@ -31,4 +31,6 @@ public class LandmarkResponse {
     private CoordinatesResponse coordinates;
 
     private List<String> pictures;
+
+    private double distance;
 }
