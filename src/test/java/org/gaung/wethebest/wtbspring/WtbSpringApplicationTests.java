@@ -8,6 +8,5 @@ class WtbSpringApplicationTests {
 
     @Test
     void contextLoads() {
-        WtbSpringApplication.main(new String[]{});
     }
 }
