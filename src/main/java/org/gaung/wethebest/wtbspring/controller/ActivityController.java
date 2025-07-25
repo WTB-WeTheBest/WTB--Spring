@@ -1,13 +1,18 @@
 package org.gaung.wethebest.wtbspring.controller;
 
+import jakarta.validation.Valid;
+import org.gaung.wethebest.wtbspring.dto.ActivityRequest;
 import org.gaung.wethebest.wtbspring.dto.ActivityResponse;
 import org.gaung.wethebest.wtbspring.dto.PageInfo;
 import org.gaung.wethebest.wtbspring.dto.WebResponse;
 import org.gaung.wethebest.wtbspring.service.ActivityService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,4 +61,31 @@ public class ActivityController {
     private int processCurrentPage(int currentPage) {
         return currentPage + 1;
     }
+
+//    @AllowedRoles({"ADMIN"})
+    @PostMapping(
+            path = "/activities",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<WebResponse<String>> createActivity(
+            @Valid @RequestBody ActivityRequest activityRequest) {
+
+        activityService.createActivity(activityRequest);
+
+        WebResponse<String> response = WebResponse.<String>builder()
+                .data("Created")
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+//    @AllowedRoles({"ADMIN"})
+//    @DeleteMapping(
+//            path = "/activities",
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    public ResponseEntity<WebResponse<String>> deleteActivity() {
+//
+//    }
 }

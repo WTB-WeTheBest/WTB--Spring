@@ -1,7 +1,6 @@
 package org.gaung.wethebest.wtbspring.repository;
 
 import org.gaung.wethebest.wtbspring.model.Landmark;
-import org.gaung.wethebest.wtbspring.projection.ActivityDistanceProjection;
 import org.gaung.wethebest.wtbspring.projection.LandmarkDistanceProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

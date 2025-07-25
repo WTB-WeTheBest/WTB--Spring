@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.gaung.wethebest.wtbspring.model.Location;
 
 @Data
 @AllArgsConstructor
@@ -22,12 +21,19 @@ public class ActivityRequest {
     @NotBlank
     private String url;
 
-    @NotBlank
-    private String minPrice;
+    private int minPrice;
 
-    @NotBlank
-    private String maxPrice;
+    private int maxPrice;
 
     @NotNull
-    private Location location;
+    private Double latitude;
+
+    @NotNull
+    private Double longitude;
+
+    @NotBlank
+    private String city;
+
+    @NotBlank
+    private String province;
 }

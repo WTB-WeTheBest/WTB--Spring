@@ -35,10 +35,10 @@ public class Marker {
     private String url;
 
     @Column(name = "min_price")
-    private String minPrice;
+    private int minPrice;
 
     @Column(name = "max_price")
-    private String maxPrice;
+    private int maxPrice;
 
     @OneToOne
     @JoinColumn(name = "id_location")
