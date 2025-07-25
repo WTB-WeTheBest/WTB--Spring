@@ -67,7 +67,7 @@ public class LandmarkController {
     }
 
     @GetMapping(
-            path = "/landmark/{landmarkId}",
+            path = "/landmarks/{landmarkId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<WebResponse<LandmarkResponse>> getLandmarkById(@PathVariable UUID landmarkId) {
@@ -83,7 +83,7 @@ public class LandmarkController {
 
     @AllowedRoles({"ADMIN"})
     @PostMapping(
-            path = "/landmark",
+            path = "/landmarks",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -101,7 +101,7 @@ public class LandmarkController {
 
     @AllowedRoles({"ADMIN"})
     @DeleteMapping(
-            path = "/landmark/{landmarkId}",
+            path = "/landmarks/{landmarkId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<WebResponse<String>> deleteLandmark(@PathVariable UUID landmarkId) {
