@@ -18,13 +18,17 @@ public interface LandmarkDistanceProjection {
 
     String getUrl();
 
-    String getMinPrice();
+    int getMinPrice();
 
-    String getMaxPrice();
+    int getMaxPrice();
 
     Double getLatitude();
 
     Double getLongitude();
 
     Double getDistance();
+
+    String getCity();
+
+    String getProvince();
 }

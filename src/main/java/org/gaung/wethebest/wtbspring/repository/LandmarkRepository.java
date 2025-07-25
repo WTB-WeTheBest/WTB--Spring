@@ -25,6 +25,8 @@ public interface LandmarkRepository extends JpaRepository<Landmark, UUID> {
         m.url,
         m.min_price,
         m.max_price,
+        l.city,
+        l.province,
         ST_Y(l.coordinates::geometry) AS latitude,
         ST_X(l.coordinates::geometry) AS longitude,
         ST_Distance(

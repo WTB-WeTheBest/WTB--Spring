@@ -5,9 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CoordinatesResponse {
+public class LocationResponse {
 
     private double latitude;
 
     private double longitude;
+
+    private String city;
+
+    private String province;
 }

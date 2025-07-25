@@ -22,11 +22,11 @@ public class ActivityResponse {
 
     private String url;
 
-    private String minPrice;
+    private int minPrice;
 
-    private String maxPrice;
+    private int maxPrice;
 
-    private CoordinatesResponse coordinates;
+    private LocationResponse location;
 
     private List<String> pictures;
 

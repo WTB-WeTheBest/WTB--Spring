@@ -66,6 +66,21 @@ public class LandmarkController {
         return currentPage + 1;
     }
 
+    @GetMapping(
+            path = "/landmark/{landmarkId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<WebResponse<LandmarkResponse>> getLandmarkById(@PathVariable UUID landmarkId) {
+
+        LandmarkResponse landmark = landmarkService.getLandmarkById(landmarkId);
+
+        WebResponse<LandmarkResponse> response = WebResponse.<LandmarkResponse>builder()
+                .data(landmark)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
     @AllowedRoles({"ADMIN"})
     @PostMapping(
             path = "/landmark",
@@ -86,12 +101,12 @@ public class LandmarkController {
 
     @AllowedRoles({"ADMIN"})
     @DeleteMapping(
-            path = "/landmark/{id}",
+            path = "/landmark/{landmarkId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<WebResponse<String>> deleteLandmark(@PathVariable UUID id) {
+    public ResponseEntity<WebResponse<String>> deleteLandmark(@PathVariable UUID landmarkId) {
 
-        landmarkService.deleteLandmark(id);
+        landmarkService.deleteLandmark(landmarkId);
 
         WebResponse<String> response = WebResponse.<String>builder()
                 .data("OK")

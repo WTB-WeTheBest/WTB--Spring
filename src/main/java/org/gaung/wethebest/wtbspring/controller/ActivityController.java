@@ -66,6 +66,21 @@ public class ActivityController {
         return currentPage + 1;
     }
 
+    @GetMapping(
+            path = "/activities/{activityId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<WebResponse<ActivityResponse>> getActivityById(@PathVariable UUID activityId) {
+
+        ActivityResponse activity = activityService.getActivityById(activityId);
+
+        WebResponse<ActivityResponse> response = WebResponse.<ActivityResponse>builder()
+                .data(activity)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
     @AllowedRoles({"ADMIN"})
     @PostMapping(
             path = "/activities",

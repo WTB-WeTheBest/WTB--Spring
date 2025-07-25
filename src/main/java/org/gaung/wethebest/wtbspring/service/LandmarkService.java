@@ -13,4 +13,6 @@ public interface LandmarkService {
     void createLandmark(LandmarkRequest request);
 
     void deleteLandmark(UUID landmarkId);
+
+    LandmarkResponse getLandmarkById(UUID landmarkId);
 }

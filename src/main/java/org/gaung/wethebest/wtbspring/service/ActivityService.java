@@ -13,4 +13,6 @@ public interface ActivityService {
     void createActivity(ActivityRequest request);
 
     void deleteActivity(UUID activityId);
+
+    ActivityResponse getActivityById(UUID activityId);
 }

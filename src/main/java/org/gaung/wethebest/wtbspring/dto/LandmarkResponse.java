@@ -22,13 +22,13 @@ public class LandmarkResponse {
 
     private String url;
 
-    private String minPrice;
+    private int minPrice;
 
-    private String maxPrice;
+    private int maxPrice;
 
     private String story;
 
-    private CoordinatesResponse coordinates;
+    private LocationResponse location;
 
     private List<String> pictures;
 
